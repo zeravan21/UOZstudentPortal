@@ -10,32 +10,21 @@ get_header(); ?>
         
         <?php if ( have_posts() ) : ?>
             <div class="courses-grid">
-                <?php while ( have_posts() ) : the_post(); 
-                    $download_link = get_field('course_download_link');
-                    $short_desc = get_field('course_short_description');
-                    $thumbnail = get_the_post_thumbnail_url(get_the_ID(), 'medium');
+                <?php while ( have_posts() ) : the_post();
+                    $course_title = get_field('course_title'); 
+                    $course_image = get_field('course_image');
                 ?>
                     <div class="course-card">
-                        <?php if ($thumbnail) : ?>
+                        <?php if ($course_image) : ?>
                             <div class="course-image">
-                                <img src="<?php echo esc_url($thumbnail); ?>" alt="<?php the_title(); ?>">
+                                <img src="<?php echo esc_url($course_image['url']); ?>" alt="<?php echo esc_attr($course_title); ?>">
                             </div>
                         <?php endif; ?>
                         
                         <div class="course-content">
                             <h2 class="course-title">
-                                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                                <a href="<?php the_permalink(); ?>"><?php echo $course_title ? esc_html($course_title) : the_title(); ?></a>
                             </h2>
-                            
-                            <?php if ($short_desc) : ?>
-                                <p class="course-description"><?php echo esc_html($short_desc); ?></p>
-                            <?php endif; ?>
-                            
-                            <div class="course-footer">
-                                <a href="<?php the_permalink(); ?>" class="btn btn-view">View Details</a>
-                                <?php if ($download_link) : ?>
-                                    <a href="<?php echo esc_url($download_link); ?>" class="btn btn-download" target="_blank">Download</a>
-                                <?php endif; ?>
                                 
                                 <?php
                                 // Show save button (you'll need to pass current user profile ID)
